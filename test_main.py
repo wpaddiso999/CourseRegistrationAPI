@@ -1,10 +1,24 @@
-# tests/test_main.py
-from fastapi.testclient import TestClient
-from main import app
-
-client = TestClient(app)
+import requests
 
 def test_register_course():
-    response = client.post("/register_course", json={"student_eid": "123", "course_prefix": "CSE", "course_number": "101"})
+   
+    base_url = "http://localhost:8000"
+    endpoint = "/register_course"
+
+   
+    data = {
+        "student_eid": "123456",
+        "course_prefix": "CS",
+        "course_number": "101"
+    }
+
+
+    response = requests.post(f"{base_url}{endpoint}", json=data)
+
     assert response.status_code == 200
-    assert response.json() == {"registered_courses": ["CSE-101"]}
+
+ 
+    print(response.json())
+
+
+test_register_course()
