@@ -1,11 +1,15 @@
-# main.py
-from fastapi import FastAPI
-from student import Student
+from fastapi.testclient import TestClient
+from main import app
 
-app = FastAPI()
+client = TestClient(app)
 
-@app.post("/register_course")
-def register_course(student_eid: str, course_prefix: str, course_number: str):
-    student = Student(eid=student_eid)
-    result = student.register_course(course_prefix, course_number)
-    return {"registered_courses": result}
+def test_register_course():
+
+    response = client.post("/register_course", json={
+        "student_eid": "123456",
+        "course_prefix": "COSC",
+        "course_number": "111"
+    })
+
+    assert response.status_code == 200
+    assert response.json() == {"registered_courses": ["COSC 111"]}
