@@ -1,6 +1,6 @@
 # tests/test_student.py
 import pytest
-from student import Student
+from students import Student
 
 @pytest.fixture
 def student_instance():
